@@ -31,6 +31,19 @@ Compile Agent: Run Compile_Agent.bat to package agent.py into a standalone execu
 
 Mass Deployment: Place the generated .exe alongside install.bat and pasang_agent.ps1 on a USB drive. Run install.bat as Administrator on target machines.
 
+## 🔄 System Workflow & Pipeline
+
+The entire ecosystem relies on a seamless, bidirectional communication pipeline between the endpoints, the gateway, and the asset management database:
+
+1. **Prerequisite (Snipe-IT Setup):** The core foundation requires an active Snipe-IT instance with API access enabled.
+2. **Asset Mapping:** The system strictly uses the PC's `Hostname` as the primary identifier to match physical machines with their corresponding asset records in Snipe-IT.
+3. **Silent Deployment:** The Python-based Agent is installed on local client PCs using a combination of Batch and PowerShell scripts, running stealthily under `NT AUTHORITY\SYSTEM`.
+4. **Data Relay via Gateway:** The Agent extracts local hardware metrics (IP, CPU, RAM, SSD S.M.A.R.T health) and sends the payload to the Proxmox-hosted Flask Gateway, avoiding direct client-to-database exposure.
+5. **API Integration:** The Gateway processes the incoming payload and automatically updates the specific asset fields in the Snipe-IT database via REST API.
+6. **Bidirectional Communication:** The Agent doesn't just send data; it actively listens on Port `5001`, maintaining a two-way communication channel with the Dashboard.
+7. **On-Demand Synchronization:** IT Administrators can trigger a "Force Sync" directly from the Corelytics Web Dashboard. The Gateway shoots a command to the field Agent, forcing an immediate hardware scan and updating both the Snipe-IT database and the Dashboard UI in real-time.
+
+
 ## 🏗️ System Architecture
 
 ```mermaid
