@@ -42,7 +42,7 @@ graph TD
     Gateway -- "3. API Asset Update" --> SnipeIT
     Gateway -- "4. Real-time Status" --> Dashboard
     Dashboard -- "5. Trigger Sync" --> Gateway
-
+```
 🛠️ Tech Stack Used
 Backend: Python 3, Flask, Requests.
 
