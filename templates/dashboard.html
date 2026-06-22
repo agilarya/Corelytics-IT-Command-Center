@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IT Command Center - Analytics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=5">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="app-container">
+
+        <aside class="cyber-sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="40" class="me-3" style="filter: brightness(0) invert(1);">
+                <h2 class="brand-title">Corelytics</h2>
+            </div>
+            <div class="sidebar-menu">
+                <a href="/" class="sidebar-link active"><i class="fa-solid fa-chart-pie"></i> Analytics</a>
+                <a href="/pc-monitor" class="sidebar-link"><i class="fa-solid fa-desktop"></i> PC Monitor</a>
+                <a href="/admin-procurement-rahasia" class="sidebar-link"><i class="fa-solid fa-cart-shopping"></i> Procurement</a>
+            </div>
+            <div class="p-3 mt-auto border-top" style="border-color: var(--border-color) !important;">
+                <a href="/logout" class="btn btn-outline-danger w-100"><i class="fa-solid fa-power-off me-2"></i> Sign Out</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <nav class="navbar-custom d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="brand-title" style="font-size: 1.2rem;">SYSTEM ANALYTICS</h1>
+                    <span class="brand-subtitle">Real-time Data Overview</span>
+                </div>
+                <div>
+                    <span class="badge-online"><i class="fa-solid fa-satellite-dish me-2"></i>System Online</span>
+                </div>
+            </nav>
+
+            <div class="container-fluid px-4 py-4">
+
+                <div class="row g-4 mb-4">
+                    <div class="col-12 col-md-3">
+                        <div class="stat-card position-relative">
+                            <p class="stat-title">Total PC Terpantau</p>
+                            <p class="stat-number">{{ total_pc | default('0', true) }}</p>
+                            <i class="fa-solid fa-computer stat-icon"></i>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="stat-card position-relative">
+                            <p class="stat-title">Status: Aman</p>
+                            <p class="stat-number text-success">{{ total_sukses | default('0', true) }}</p>
+                            <i class="fa-solid fa-circle-check stat-icon"></i>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="stat-card position-relative">
+                            <p class="stat-title">Error / Offline</p>
+                            <p class="stat-number text-danger">{{ total_error | default('0', true) }}</p>
+                            <i class="fa-solid fa-triangle-exclamation stat-icon"></i>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="stat-card d-flex justify-content-center align-items-center" style="padding: 10px;">
+                            <canvas id="miniStatusChart" style="max-height: 100px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-4">
+                    <div class="col-12 col-lg-8">
+                        <div class="chart-container">
+                            <h5 class="stat-title mb-4">Running Traffic Load</h5>
+                            <div style="height: 250px;">
+                                <canvas id="trafficLineChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-4">
+                        <div class="chart-container">
+                            <h5 class="stat-title mb-4">Storage Health Monitor</h5>
+                            <div style="height: 250px;">
+                                <canvas id="resourceBarChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-12 col-lg-8">
+                        <div class="chart-container" style="height: 320px; overflow: hidden; display: flex; flex-direction: column;">
+                            <h5 class="stat-title mb-3"><i class="fa-solid fa-terminal me-2"></i>Live System Feed</h5>
+                            <div id="terminal-feed" style="font-family: 'Share Tech Mono', monospace; font-size: 0.85rem; color: #8b8b8d; flex: 1; overflow-y: auto; display: flex; flex-direction: column; justify-content: flex-end;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-lg-4">
+                        <div class="stat-card" style="height: 320px; display: flex; flex-direction: column; justify-content: space-between;">
+                            <h5 class="stat-title"><i class="fa-solid fa-shield-halved me-2"></i>Security & Actions</h5>
+                            
+                            <div class="p-2 mb-2 rounded" style="background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3);">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-success fw-bold" style="font-size: 0.85rem;"><i class="fa-solid fa-robot me-2"></i>Auto-Ban Protection</span>
+                                    <span class="badge bg-success">ACTIVE</span>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-column gap-2 mt-2" style="overflow-y: auto;">
+                                
+                                <div class="input-group input-group-sm">
+                                    <select id="pilih-hostname-dash" class="form-select bg-dark text-light" style="border-color: rgba(255,255,255,0.2);">
+                                        <option value="" style="color: #888;">-- Pilih PC (Sync) --</option>
+                                        {% for pc in logs.keys() %}
+                                            <option value="{{ pc }}" style="color: #000;">{{ pc }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <button class="btn btn-warning" onclick="syncPCSpesifikDash(this)" title="Sync ke Snipe-IT">
+                                        <i class="fa-solid fa-cloud-arrow-down"></i>
+                                    </button>
+                                </div>
+
+                                <button class="btn btn-outline-warning w-100 text-start mt-1" onclick="generateInsight(this)">
+                                    <i class="fa-solid fa-brain me-2"></i> Generate A.I. Insight
+                                </button>
+                                <a href="/api/export_csv" class="btn btn-outline-info w-100 text-start">
+                                    <i class="fa-solid fa-file-csv me-2"></i> Download Asset Report
+                                </a>
+                                <button class="btn btn-outline-danger w-100 text-start" onclick="clearLogsConfirm()">
+                                    <i class="fa-solid fa-trash-can me-2"></i> Purge Traffic Logs
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="modal fade" id="aiModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title" style="color: var(--accent-orange);"><i class="fa-solid fa-brain me-2"></i>A.I. SYSTEM ANALYSIS</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="ai-insight-content" style="font-size: 0.95rem; color: var(--text-primary); line-height: 1.6;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        Chart.defaults.color = '#8b8b8d';
+        Chart.defaults.font.family = "'Inter', sans-serif";
+
+        // 1. Mini Donut Chart
+        new Chart(document.getElementById('miniStatusChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Sukses', 'Error', 'Offline'],
+                datasets: [{
+                    data: [{{ total_sukses | default(0) }}, {{ total_error | default(0) }}, {{ total_offline | default(0) }}],
+                    backgroundColor: ['#2ecc71', '#e74c3c', '#8b8b8d'],
+                    borderColor: '#1c1c1c',
+                    borderWidth: 2
+                }]
+            },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+        });
+
+        // 2. Line Chart Halus Gradasi Oranye
+        const ctxLine = document.getElementById('trafficLineChart').getContext('2d');
+        let gradientOrange = ctxLine.createLinearGradient(0, 0, 0, 300);
+        gradientOrange.addColorStop(0, 'rgba(255, 123, 66, 0.4)');
+        gradientOrange.addColorStop(1, 'rgba(255, 123, 66, 0.0)');
+
+        new Chart(ctxLine, {
+            type: 'line',
+            data: {
+                labels: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00'],
+                datasets: [{
+                    label: 'Ping Requests / min',
+                    data: [120, 190, 300, 250, 420, 200, 150],
+                    borderColor: '#ff7b42',
+                    backgroundColor: gradientOrange,
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4, 
+                    pointRadius: 0,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { grid: { display: false }, border: { display: false } },
+                    x: { grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false } }
+                }
+            }
+        });
+
+        // 3. Bar Chart Resource
+        new Chart(document.getElementById('resourceBarChart'), {
+            type: 'bar',
+            data: {
+                labels: {{ chart_labels | default(['N/A']) | tojson | safe }},
+                datasets: [{
+                    label: 'Storage Health (%)',
+                    data: {{ chart_data | default([100]) | tojson | safe }},
+                    backgroundColor: function(context) {
+                        var value = context.dataset.data[context.dataIndex];
+                        return value < 50 ? '#e74c3c' : '#2ecc71';
+                    },
+                    borderRadius: 4,
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { max: 100, grid: { color: 'rgba(255,255,255,0.05)' }, border: { display: false } },
+                    x: { grid: { display: false }, border: { display: false } }
+                }
+            }
+        });
+
+        function clearLogsConfirm() {
+            if(confirm("⚠️ Yakin ingin menghapus semua log traffic jaringan?")) {
+                fetch('/api/clear_traffic', {method: 'POST'})
+                .then(res => res.json())
+                .then(data => alert(data.pesan))
+                .catch(err => alert("Gagal menghubungi server."));
+            }
+        }
+
+        function generateInsight(btn) {
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Analyzing Data...';
+            btn.classList.add('disabled');
+            
+            fetch('/api/generate_ai_insight')
+            .then(res => res.json())
+            .then(data => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('disabled');
+                
+                if(data.status === 'sukses') {
+                    document.getElementById('ai-insight-content').innerHTML = data.insight;
+                    new bootstrap.Modal(document.getElementById('aiModal')).show();
+                } else {
+                    alert("A.I. Error: " + data.pesan);
+                }
+            })
+            .catch(err => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('disabled');
+                alert("Gagal menghubungi A.I.");
+            });
+        }
+
+        // ==============================================
+        // 🔥 FUNGSI SINKRONISASI 1 PC (DASHBOARD)
+        // ==============================================
+        function syncPCSpesifikDash(btn) {
+            const hostname = document.getElementById('pilih-hostname-dash').value;
+            if (!hostname) {
+                alert('Perhatian: Pilih Hostname PC terlebih dahulu dari dropdown!');
+                return;
+            }
+
+            if (!confirm(`Sinkronisasi PC: ${hostname}\n\nData spesifikasi akan ditarik dari Server Cloud dan diupdate langsung ke Snipe-IT. Lanjutkan?`)) {
+                return;
+            }
+
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+            btn.disabled = true;
+
+            fetch(`/api/sync_single_pc/${hostname}`, { method: 'GET' })
+            .then(res => res.json())
+            .then(data => {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+                if (data.status === 'sukses') {
+                    alert('✅ BERHASIL:\n' + data.pesan);
+                    location.reload(); 
+                } else {
+                    alert('❌ GAGAL:\n' + data.pesan);
+                }
+            })
+            .catch(err => {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+                alert('⚠️ Terjadi Kesalahan Jaringan.');
+            });
+        }
+
+        const terminalFeed = document.getElementById('terminal-feed');
+        const logMessages = [
+            '<span style="color:var(--accent-blue);">[SYS]</span> Active monitoring loop verified.',
+            '<span style="color:var(--accent-blue);">[SYS]</span> Snipe-IT Database Sync heartbeat OK.',
+            '<span style="color:var(--accent-orange);">[WARN]</span> Resolving minor packet loss...',
+            '<span style="color:var(--accent-green);">[NET]</span> Incoming traffic verified securely.',
+            '<span style="color:var(--accent-blue);">[SYS]</span> Fetching asset health metrics...',
+            '<span style="color:var(--accent-red);">[ERR]</span> Dropped connection from unknown host.',
+            '<span style="color:var(--accent-blue);">[SYS]</span> Backend cache cycle cleared.',
+            '<span style="color:var(--accent-green);">[NET]</span> API endpoints responding nominally.'
+        ];
+
+        function addLogEntry() {
+            const newLog = document.createElement('div');
+            newLog.style.marginBottom = '6px';
+            const now = new Date();
+            const timeString = now.toTimeString().split(' ')[0];
+            const randomMsg = logMessages[Math.floor(Math.random() * logMessages.length)];
+            
+            newLog.innerHTML = `<span style="color: #666; margin-right: 8px;">[${timeString}]</span> ${randomMsg}`;
+            terminalFeed.appendChild(newLog);
+            
+            if (terminalFeed.childElementCount > 15) {
+                terminalFeed.removeChild(terminalFeed.firstChild);
+            }
+            terminalFeed.scrollTop = terminalFeed.scrollHeight;
+            
+            setTimeout(addLogEntry, Math.random() * 3000 + 1000);
+        }
+        setTimeout(addLogEntry, 500);
+    </script>
+</body>
+</html>

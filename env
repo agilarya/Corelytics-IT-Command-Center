@@ -1,0 +1,11 @@
+# Konfigurasi Keamanan Web
+SECRET_KEY=
+ADMIN_USER=
+ADMIN_PASS=
+TELEGRAM_TOKEN_KANTOR=
+TELEGRAM_CHAT_ID=
+GEMINI_API_KEY=
+SNIPE_IT_TOKEN=
+
+# Tambahkan baris ini di bawah
+SECRET_TOKEN=""

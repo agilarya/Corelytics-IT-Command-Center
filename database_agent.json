@@ -1,0 +1,472 @@
+{
+    "ADM-ACC1": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "32.1.1.8",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:10"
+    },
+    "ADMIN-MELTING": {
+        "waktu": "22-06-2026 08:41:15",
+        "status": "SUKSES",
+        "ip": "35.1.1.127",
+        "pesan": "Update Snipe-IT berhasil via Gateway. Hardware Sehat.",
+        "ram": "8 GB",
+        "cpu": "AMD 3020e with Radeon Graphics",
+        "free_c": "137.68 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "DESKTOP-53APPV1": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "127.0.0.1",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "19-06-2026 07:44:10"
+    },
+    "DESKTOP-TG738OP": {
+        "waktu": "22-06-2026 09:23:00",
+        "status": "SUKSES",
+        "ip": "24.1.1.71",
+        "pesan": "Update Snipe-IT berhasil via Gateway. Hardware Sehat.",
+        "ram": "8 GB",
+        "cpu": "Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz",
+        "free_c": "217.94 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "EXT-M4": {
+        "waktu": "20-06-2026 10:12:53",
+        "status": "OFFLINE",
+        "ip": "24.1.1.12",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "8 GB",
+        "cpu": "Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz",
+        "free_c": "216.53 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "EXT-M6": {
+        "cpu": "Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz",
+        "free_c": "217.98 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)",
+        "ip": "25.1.1.44",
+        "pesan": "PC mati / tidak merespon lebih dari 24 jam.",
+        "ram": "8 GB",
+        "status": "OFFLINE",
+        "waktu": "15-06-2026 12:01:25"
+    },
+    "EXT-M7": {
+        "cpu": "Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz",
+        "free_c": "218.39 GB",
+        "health_storage": "\ud83d\udd34 KRITIS: Ada 2 Bad Sector!",
+        "ip": "24.1.1.207",
+        "pesan": "PC mati / tidak merespon lebih dari 24 jam.",
+        "ram": "4 GB",
+        "status": "OFFLINE",
+        "waktu": "15-06-2026 12:01:03"
+    },
+    "GBB-SP2": {
+        "waktu": "19-06-2026 14:56:39",
+        "status": "OFFLINE",
+        "ip": "35.1.1.3",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "8 GB",
+        "cpu": "Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz",
+        "free_c": "9.0 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "GBB-new": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "127.0.0.1",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "19-06-2026 07:46:37"
+    },
+    "IT": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "31.1.1.5",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:06"
+    },
+    "IT-ARYA": {
+        "waktu": "22-06-2026 08:25:35",
+        "status": "SUKSES",
+        "ip": "31.1.1.28",
+        "pesan": "Update Snipe-IT berhasil via Gateway. Hardware Sehat.",
+        "ram": "12 GB",
+        "cpu": "Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz",
+        "free_c": "54.05 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "IT-BINTANG": {
+        "waktu": "22-06-2026 07:53:05",
+        "status": "SUKSES",
+        "ip": "31.1.1.72",
+        "pesan": "Update Snipe-IT berhasil via Gateway. Hardware Sehat.",
+        "ram": "8 GB",
+        "cpu": "Intel(R) Core(TM) i3-10105 CPU @ 3.70GHz",
+        "free_c": "109.72 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "IT-TRIKASA": {
+        "waktu": "22-06-2026 08:09:22",
+        "status": "ERROR",
+        "ip": "31.1.1.2",
+        "pesan": "\ud83d\udea8 STORAGE PENUH: Sisa disk C di PC IT-TRIKASA tinggal 23.39 GB!",
+        "ram": "16 GB",
+        "cpu": "Intel(R) Core(TM) i3-14100F",
+        "free_c": "23.39 GB",
+        "health_storage": "\ud83d\udfe1 Warning: Disk Penuh"
+    },
+    "PPIC": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "27.1.1.87",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:10"
+    },
+    "PPIC-02": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "27.1.1.5",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:07"
+    },
+    "QC-MELTING": {
+        "waktu": "22-06-2026 08:41:57",
+        "status": "SUKSES",
+        "ip": "35.1.1.20",
+        "pesan": "Update Snipe-IT berhasil via Gateway. Hardware Sehat.",
+        "ram": "12 GB",
+        "cpu": "AMD 3020e with Radeon Graphics",
+        "free_c": "197.25 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "Xmen-Engraving": {
+        "waktu": "22-06-2026 08:42:24",
+        "status": "SUKSES",
+        "ip": "24.1.1.164",
+        "pesan": "Update Snipe-IT berhasil via Gateway. Hardware Sehat.",
+        "ram": "8 GB",
+        "cpu": "Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz",
+        "free_c": "128.89 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "admacc2": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "32.1.1.3",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:36"
+    },
+    "admacc3": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "32.1.1.5",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:11"
+    },
+    "admacc4": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "32.1.1.4",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:11"
+    },
+    "admcorr": {
+        "waktu": "20-06-2026 16:00:34",
+        "status": "SUKSES",
+        "ip": "24.1.1.76",
+        "pesan": "Update Snipe-IT berhasil via Gateway. Hardware Sehat.",
+        "ram": "8 GB",
+        "cpu": "Intel(R) Core(TM) i5-10400 CPU @ 2.90GHz",
+        "free_c": "180.18 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "admin2": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "127.0.0.1",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "19-06-2026 07:48:01"
+    },
+    "aisyahga": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "31.1.1.4",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:13"
+    },
+    "createlot1": {
+        "waktu": "22-06-2026 08:19:02",
+        "status": "SUKSES",
+        "ip": "24.1.1.73",
+        "pesan": "Update Snipe-IT berhasil via Gateway. Hardware Sehat.",
+        "ram": "8 GB",
+        "cpu": "Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz",
+        "free_c": "208.81 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "createlot2": {
+        "waktu": "22-06-2026 08:19:15",
+        "status": "SUKSES",
+        "ip": "24.1.1.72",
+        "pesan": "Update Snipe-IT berhasil via Gateway. Hardware Sehat.",
+        "ram": "8 GB",
+        "cpu": "Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz",
+        "free_c": "205.45 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "evigbb": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "37.1.1.6",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "19-06-2026 07:38:38"
+    },
+    "ext-print": {
+        "waktu": "22-06-2026 09:06:16",
+        "status": "ERROR",
+        "ip": "192.168.21.149",
+        "pesan": "\ud83d\udea8 HARDWARE RUSAK: Ditemukan 2 Bad Sector di SSD PC ext-print!",
+        "ram": "4 GB",
+        "cpu": "Intel(R) Pentium(R) CPU G3240 @ 3.10GHz",
+        "free_c": "115.87 GB",
+        "health_storage": "\ud83d\udd34 KRITIS: Ada 2 Bad Sector!"
+    },
+    "gbbraw2": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "37.1.1.7",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:16"
+    },
+    "gbbsapre": {
+        "waktu": "19-06-2026 15:02:14",
+        "status": "OFFLINE",
+        "ip": "192.168.137.1",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "8 GB",
+        "cpu": "AMD 3020e with Radeon Graphics",
+        "free_c": "180.41 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "gbj-xmen": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "27.1.1.10",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:10"
+    },
+    "mtc": {
+        "cpu": "AMD FX(tm)-6300 Six-Core Processor",
+        "free_c": "186.1 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)",
+        "ip": "24.1.1.13",
+        "pesan": "PC mati / tidak merespon lebih dari 24 jam.",
+        "ram": "8 GB",
+        "status": "OFFLINE",
+        "waktu": "15-06-2026 12:00:39"
+    },
+    "painting": {
+        "cpu": "Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz",
+        "free_c": "205.19 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)",
+        "ip": "26.1.1.2",
+        "pesan": "PC mati / tidak merespon lebih dari 24 jam.",
+        "ram": "8 GB",
+        "status": "OFFLINE",
+        "waktu": "15-06-2026 12:00:49"
+    },
+    "painting1": {
+        "waktu": "20-06-2026 09:43:40",
+        "status": "OFFLINE",
+        "ip": "26.1.1.3",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "4 GB",
+        "cpu": "Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz",
+        "free_c": "117.26 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "ppic01": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "27.1.1.9",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:11"
+    },
+    "ppic03": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "27.1.1.3",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:10"
+    },
+    "purchasing1": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "36.1.1.6",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:11"
+    },
+    "purchasing2": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "36.1.1.2",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:04"
+    },
+    "spv-ext": {
+        "waktu": "22-06-2026 08:39:25",
+        "status": "SUKSES",
+        "ip": "24.1.1.181",
+        "pesan": "Update Snipe-IT berhasil via Gateway. Hardware Sehat.",
+        "ram": "8 GB",
+        "cpu": "Intel(R) Core(TM) i5-7400 CPU @ 3.00GHz",
+        "free_c": "150.64 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "wahyumkt": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "29.1.1.3",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "19-06-2026 07:25:42"
+    },
+    "xmen-acc2": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "28.1.1.9",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "18-06-2026 12:00:10"
+    },
+    "xmen-die": {
+        "waktu": "20-06-2026 16:00:25",
+        "status": "SUKSES",
+        "ip": "24.1.1.69",
+        "pesan": "Update Snipe-IT berhasil via Gateway. Hardware Sehat.",
+        "ram": "12 GB",
+        "cpu": "Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz",
+        "free_c": "166.24 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    },
+    "xmenacc1": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "28.1.1.11",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "19-06-2026 07:50:54"
+    },
+    "xmenacc3": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "28.1.1.5",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "19-06-2026 07:49:11"
+    },
+    "xmenacc4": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "28.1.1.8",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "19-06-2026 07:55:12"
+    },
+    "xmenacc5": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "28.1.1.203",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "19-06-2026 07:51:43"
+    },
+    "xmenacc6": {
+        "cpu": "N/A",
+        "free_c": "N/A",
+        "health_storage": "N/A",
+        "ip": "28.1.1.3",
+        "pesan": "PC mati > 24 jam.",
+        "ram": "N/A",
+        "status": "OFFLINE",
+        "waktu": "19-06-2026 07:55:59"
+    },
+    "gbbraw4": {
+        "waktu": "22-06-2026 08:58:35",
+        "status": "SUKSES",
+        "ip": "36.1.1.7",
+        "pesan": "Update Snipe-IT berhasil via Gateway. Hardware Sehat.",
+        "ram": "7 GB",
+        "cpu": "AMD Ryzen 5 2400G with Radeon Vega Graphics",
+        "free_c": "208.44 GB",
+        "health_storage": "\u2705 Sehat (Umur: 100%)"
+    }
+}

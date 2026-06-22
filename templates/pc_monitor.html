@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>IT Command Center - PC Monitor</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=4">
+</head>
+<body>
+    <div id="refreshBar" style="height: 3px; background: var(--accent-orange); width: 0%; position: fixed; top: 0; left: 0; z-index: 9999; transition: width 1s linear;"></div>
+    
+    <div class="app-container">
+
+        <aside class="cyber-sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="40" class="me-3" style="filter: brightness(0) invert(1);">
+                <h2 class="brand-title">Corelytics</h2>
+            </div>
+            <div class="sidebar-menu">
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Analytics</a>
+                <a href="/pc-monitor" class="sidebar-link active"><i class="fa-solid fa-desktop"></i> PC Monitor</a>
+                <a href="/admin-procurement-rahasia" class="sidebar-link"><i class="fa-solid fa-cart-shopping"></i> Procurement</a>
+            </div>
+            <div class="p-3 mt-auto border-top" style="border-color: var(--border-color) !important;">
+                <a href="/logout" class="btn btn-outline-danger w-100"><i class="fa-solid fa-power-off me-2"></i> Sign Out</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <nav class="navbar-custom d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="brand-title" style="font-size: 1.2rem;">PC MONITORING</h1>
+                    <span class="brand-subtitle">Live Assets Tracker</span>
+                </div>
+                <div>
+                    <span class="badge-online"><i class="fa-solid fa-satellite-dish me-2"></i>System Online</span>
+                </div>
+            </nav>
+
+            <div class="container-fluid px-4 py-4">
+                
+                <div class="row g-4 mb-4">
+                    <div class="col-12 col-md-3">
+                        <div class="stat-card position-relative">
+                            <p class="stat-title">Total PC Terpantau</p>
+                            <p class="stat-number">{{ total_pc }}</p>
+                            <i class="fa-solid fa-computer stat-icon"></i>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="stat-card position-relative">
+                            <p class="stat-title">Status: Aman</p>
+                            <p class="stat-number text-success">{{ total_sukses }}</p>
+                            <i class="fa-solid fa-circle-check stat-icon"></i>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="stat-card position-relative">
+                            <p class="stat-title">Error / Offline</p>
+                            <p class="stat-number text-danger">{{ total_error + total_offline }}</p>
+                            <i class="fa-solid fa-triangle-exclamation stat-icon"></i>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <div class="stat-card d-flex justify-content-center align-items-center" style="padding: 10px;">
+                            <canvas id="statusChart" style="max-height: 100px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-4 p-3 rounded flex-wrap gap-3" style="background-color: var(--bg-surface); border: 1px solid var(--border-color);">
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="/api/export_csv" class="btn btn-outline-light btn-sm fw-bold">
+                            <i class="fa-solid fa-file-excel me-1" style="color: var(--accent-green);"></i> CSV
+                        </a>
+                        <button onclick="syncManualData(this)" class="btn btn-outline-info btn-sm fw-bold">
+                            <i class="fa-solid fa-rotate-right me-1"></i> Sync Semua
+                        </button>
+                        
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                            <select id="pilih-hostname" class="form-select bg-dark text-light" style="border-color: rgba(255,255,255,0.2);">
+                                <option value="" style="color: #888;">-- Pilih PC (Snipe-IT) --</option>
+                                {% for pc in logs.keys() %}
+                                    <option value="{{ pc }}" style="color: #000;">{{ pc }}</option>
+                                {% endfor %}
+                            </select>
+                            <button onclick="syncPCSpesifik(this)" class="btn btn-warning fw-bold text-dark">
+                                <i class="fa-solid fa-cloud-arrow-down"></i> Sync
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="search-input-wrapper position-relative flex-grow-1" style="max-width: 400px;">
+                        <i class="fa-solid fa-magnifying-glass position-absolute" style="left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-secondary);"></i>
+                        <input type="text" id="searchInput" class="form-control w-100" style="background-color: var(--bg-body); border: 1px solid var(--border-color); color: var(--text-primary); padding-left: 2.5rem; border-radius: 8px;" onkeyup="filterTable()" placeholder="Ketik nama PC / IP...">
+                    </div>
+                </div>
+
+                <div class="chart-container" style="padding: 0; overflow: hidden;">
+                    <div class="table-responsive">
+                        <table class="table table-dark table-borderless table-hover align-middle mb-0" id="agentTable" style="--bs-table-bg: transparent; --bs-table-hover-bg: rgba(255,255,255,0.05);">
+                            <thead style="background-color: rgba(255,255,255,0.02); border-bottom: 1px solid var(--border-color);">
+                                <tr>
+                                    <th class="px-4 py-3"><i class="fa-solid fa-desktop me-2 text-muted"></i> HOSTNAME</th>
+                                    <th class="py-3 sortable" onclick="sortTableByIP()" style="cursor: pointer;">
+                                        <i class="fa-solid fa-network-wired me-2 text-muted"></i> IP ADDRESS <i id="ipSortIcon" class="fa-solid fa-sort ms-1 opacity-50"></i>
+                                    </th>
+                                    <th class="py-3"><i class="fa-regular fa-clock me-2 text-muted"></i> TERAKHIR LAPOR</th>
+                                    <th class="py-3"><i class="fa-solid fa-heart-pulse me-2 text-muted"></i> STATUS</th>
+                                    <th class="py-3"><i class="fa-solid fa-circle-info me-2 text-muted"></i> DETAIL LOG</th>
+                                    <th class="text-center py-3"><i class="fa-solid fa-gear text-muted"></i> AKSI</th>
+                                </tr>
+                            </thead>
+                            <tbody style="color: var(--text-secondary);">
+                                {% for pc, data in logs.items() %}
+                                <tr style="border-bottom: 1px solid rgba(255,255,255,0.02);">
+                                    <td class="px-4 py-3">
+                                        <a href="javascript:void(0)" class="text-decoration-none fw-bold" style="color: var(--text-primary); font-family: 'Inter', sans-serif;" title="Klik untuk lihat detail hardware"
+                                           onclick="bukaModal('{{ pc }}', '{{ data.ip }}', '{{ data.cpu }}', '{{ data.ram }}', '{{ data.free_c }}', '{{ data.health_storage }}', '{{ data.status }}')">
+                                            <i class="fa-solid fa-search me-1 text-muted" style="font-size: 0.8rem;"></i> {{ pc }}
+                                        </a>
+                                    </td>
+                                    <td style="font-family: 'Share Tech Mono', monospace; color: var(--accent-blue);">{{ data.ip }}</td>
+                                    <td style="font-size: 0.9rem;">{{ data.waktu }}</td>
+                                    <td>
+                                        {% if data.status == 'SUKSES' %}
+                                            <span class="badge" style="background-color: rgba(46, 204, 113, 0.1); color: var(--accent-green); border: 1px solid rgba(46, 204, 113, 0.2);"><i class="fa-solid fa-check me-1"></i> SUKSES</span>
+                                        {% elif data.status == 'OFFLINE' %}
+                                            <span class="badge" style="background-color: rgba(139, 139, 141, 0.1); color: var(--text-secondary); border: 1px solid rgba(139, 139, 141, 0.2);"><i class="fa-solid fa-power-off me-1"></i> OFFLINE</span>
+                                        {% else %}
+                                            <span class="badge" style="background-color: rgba(231, 76, 60, 0.1); color: var(--accent-red); border: 1px solid rgba(231, 76, 60, 0.2);"><i class="fa-solid fa-xmark me-1"></i> ERROR</span>
+                                        {% endif %}
+                                    </td>
+                                    <td style="font-size: 0.85rem; max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="{{ data.pesan }}">{{ data.pesan }}</td>
+                                    <td class="text-center">
+                                        <button class="btn btn-sm" style="color: var(--accent-red); background: rgba(231, 76, 60, 0.1);" onclick="hapusDataPC('{{ pc }}')" title="Hapus Data">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-white" style="border: 1px solid var(--border-color); border-radius: 12px; background-color: var(--bg-surface);">
+                <div class="modal-header" style="border-bottom: 1px solid var(--border-color);">
+                    <h5 class="modal-title fw-bold" id="modalTitle" style="color: var(--text-primary);"><i class="fa-solid fa-microchip me-2 text-muted"></i> Detail PC</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" style="font-size: 0.95rem;">
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2" style="border-color: var(--border-color) !important;">
+                        <span class="text-muted fw-medium">IP Address:</span>
+                        <span id="m-ip" class="fw-bold" style="font-family: 'Share Tech Mono', monospace; color: var(--accent-blue);"></span>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2" style="border-color: var(--border-color) !important;">
+                        <span class="text-muted fw-medium">Status Sensor:</span>
+                        <span id="m-status"></span>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2" style="border-color: var(--border-color) !important;">
+                        <span class="text-muted fw-medium">Processor:</span>
+                        <span id="m-cpu" class="text-end" style="max-width: 60%; color: var(--text-primary);"></span>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2" style="border-color: var(--border-color) !important;">
+                        <span class="text-muted fw-medium">Kapasitas RAM:</span>
+                        <span id="m-ram" style="color: var(--text-primary);"></span>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom pb-2 mb-2" style="border-color: var(--border-color) !important;">
+                        <span class="text-muted fw-medium">Sisa Disk C:</span>
+                        <span id="m-storage" style="color: var(--text-primary);"></span>
+                    </div>
+                    <div class="d-flex justify-content-between pb-2">
+                        <span class="text-muted fw-medium">Kesehatan SSD:</span>
+                        <span id="m-health" class="fw-bold" style="color: var(--accent-orange);"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const ctx = document.getElementById('statusChart').getContext('2d');
+            const dataSukses = {{ total_sukses }};
+            const dataError = {{ total_error }};
+            const dataOffline = {{ total_offline }};
+
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Sukses', 'Error', 'Offline'],
+                    datasets: [{
+                        data: [dataSukses, dataError, dataOffline],
+                        backgroundColor: ['#2ecc71', '#e74c3c', '#8b8b8d'],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+        });
+
+        function bukaModal(pc, ip, cpu, ram, free_c, health, status) {
+            document.getElementById('modalTitle').innerHTML = `<i class="fa-solid fa-microchip me-2 text-muted"></i> ${pc}`;
+            document.getElementById('m-ip').innerText = ip;
+
+            let badge = status === 'SUKSES' ? '<span class="badge" style="background-color: rgba(46, 204, 113, 0.1); color: var(--accent-green); border: 1px solid rgba(46, 204, 113, 0.2);">AMAN</span>' :
+                        status === 'OFFLINE' ? '<span class="badge" style="background-color: rgba(139, 139, 141, 0.1); color: var(--text-secondary); border: 1px solid rgba(139, 139, 141, 0.2);">OFFLINE</span>' :
+                        '<span class="badge" style="background-color: rgba(231, 76, 60, 0.1); color: var(--accent-red); border: 1px solid rgba(231, 76, 60, 0.2);">BAHAYA</span>';
+            document.getElementById('m-status').innerHTML = badge;
+
+            document.getElementById('m-cpu').innerHTML = '<span class="spinner-border spinner-border-sm text-secondary"></span>';
+            document.getElementById('m-ram').innerHTML = '...';
+            document.getElementById('m-storage').innerHTML = '...';
+            document.getElementById('m-health').innerHTML = '...';
+
+            new bootstrap.Modal(document.getElementById('detailModal')).show();
+
+            if (cpu && cpu !== 'None' && cpu !== 'N/A') {
+                document.getElementById('m-cpu').innerText = cpu;
+                document.getElementById('m-ram').innerText = ram;
+                document.getElementById('m-storage').innerText = free_c;
+                document.getElementById('m-health').innerText = health + '%';
+            } else {
+                // (Ini route tambahan milikmu sendiri dari script aslinya)
+                fetch('/api/get_spek_snipe/' + pc)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'sukses') {
+                        document.getElementById('m-cpu').innerText = data.cpu;
+                        document.getElementById('m-ram').innerText = data.ram;
+                        document.getElementById('m-storage').innerText = data.free_c;
+                        document.getElementById('m-health').innerText = data.health !== 'N/A' ? data.health + '%' : 'N/A';
+                    } else {
+                        let pesanError = data.pesan ? data.pesan : 'Gagal ditarik';
+                        document.getElementById('m-cpu').innerHTML = `<span style="color: var(--accent-red);"><i class="fa-solid fa-triangle-exclamation"></i> ${pesanError}</span>`;
+                        document.getElementById('m-ram').innerText = '-';
+                        document.getElementById('m-storage').innerText = '-';
+                        document.getElementById('m-health').innerText = '-';
+                    }
+                }).catch(err => {
+                    document.getElementById('m-cpu').innerHTML = '<span style="color: var(--accent-red);">Koneksi Error</span>';
+                });
+            }
+        }
+
+        function filterTable() {
+            let input = document.getElementById("searchInput");
+            let filter = input.value.toUpperCase();
+            let table = document.getElementById("agentTable");
+            let tr = table.getElementsByTagName("tr");
+
+            for (let i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none";
+                let td = tr[i].getElementsByTagName("td");
+                for (let j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        let txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        let ipSortAscending = true;
+        function sortTableByIP() {
+            const table = document.getElementById("agentTable");
+            const tbody = table.querySelector("tbody");
+            const rows = Array.from(tbody.querySelectorAll("tr"));
+            const icon = document.getElementById("ipSortIcon");
+
+            rows.sort((a, b) => {
+                const ipA = a.cells[1].textContent.trim();
+                const ipB = b.cells[1].textContent.trim();
+                return compareIPs(ipA, ipB) * (ipSortAscending ? 1 : -1);
+            });
+
+            rows.forEach(row => tbody.appendChild(row));
+            ipSortAscending = !ipSortAscending;
+            icon.className = ipSortAscending ? "fa-solid fa-sort-up ms-1" : "fa-solid fa-sort-down ms-1";
+            icon.style.color = "var(--text-primary)";
+        }
+
+        function compareIPs(ip1, ip2) {
+            if (ip1 === 'Tidak ada IP') return 1;
+            if (ip2 === 'Tidak ada IP') return -1;
+            const num1 = Number(ip1.split(".").map((d) => (`000${d}`).slice(-3)).join(""));
+            const num2 = Number(ip2.split(".").map((d) => (`000${d}`).slice(-3)).join(""));
+            return num1 - num2;
+        }
+
+        function hapusDataPC(hostname) {
+            if (confirm("⚠️ Yakin mau menghapus log untuk PC: " + hostname + "?\n\nJika PC menyala besok, datanya akan muncul kembali.")) {
+                fetch('/api/hapus/' + hostname, { method: 'DELETE' })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'sukses') window.location.reload();
+                    else alert("Gagal menghapus data!");
+                })
+                .catch(error => { alert("Terjadi kesalahan jaringan."); });
+            }
+        }
+
+        function syncManualData(btn) {
+            if (!confirm("Apakah Anda yakin ingin menarik SEMUA data terbaru dari Server Cloud secara manual?")) {
+                return; 
+            }
+
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Menarik Data...';
+            btn.disabled = true; 
+
+            fetch('/api/sync_from_server2')
+            .then(res => res.json())
+            .then(data => {
+                if(data.status === 'sukses') {
+                    alert("✅ " + data.pesan);
+                    window.location.reload(); 
+                } else {
+                    alert("❌ Gagal: " + data.pesan);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false; 
+                }
+            })
+            .catch(err => {
+                alert("⚠️ Terjadi kesalahan jaringan saat menarik data dari Server Cloud.");
+                btn.innerHTML = originalText;
+                btn.disabled = false; 
+            });
+        }
+
+        // ==============================================
+        // 🔥 FUNGSI SINKRONISASI 1 PC 
+        // ==============================================
+            function syncPCSpesifik(btn) {
+            const hostname = document.getElementById('pilih-hostname').value;
+            
+            if (!hostname) {
+                alert('Perhatian: Pilih Hostname PC terlebih dahulu dari dropdown!');
+                return;
+            }
+
+            if (!confirm(`Tarik Data Langsung dari PC: ${hostname}\n\nSistem akan memaksa PC ini untuk mensensor ulang hardwarenya saat ini juga, lalu mengupdate Snipe-IT dan Dashboard. Lanjutkan?`)) {
+                return;
+            }
+
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Menghubungi PC...';
+            btn.disabled = true;
+
+            fetch(`/api/sync_single_pc/${hostname}`, { method: 'GET' })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'sukses') {
+                    alert('✅ BERHASIL:\n' + data.pesan);
+                    btn.innerHTML = '<i class="fa-solid fa-check"></i> Tersinkron';
+                    
+                    // Beri waktu 3 detik untuk Agent lokal -> Gateway -> SnipeIT -> Dashboard selesai
+                    setTimeout(() => {
+                        location.reload(); 
+                    }, 3000);
+                } else {
+                    alert('❌ GAGAL:\n' + data.pesan);
+                    btn.innerHTML = originalHTML;
+                    btn.disabled = false;
+                }
+            })
+            .catch(err => {
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+                alert('⚠️ Terjadi Kesalahan Jaringan:\nPastikan server Gateway Proxmox dan Cloudflare Tunnel sedang online.');
+            });
+        }
+
+        let timeLeft = 600; 
+        const totalTime = 600;
+        setInterval(() => {
+            timeLeft--;
+            document.getElementById('refreshBar').style.width = ((totalTime - timeLeft) / totalTime * 100) + '%';
+            if(timeLeft <= 0) window.location.reload();
+        }, 1000);
+    </script>
+</body>
+</html>

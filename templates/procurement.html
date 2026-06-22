@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Procurement Tracker - IT Command Center</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=4">
+</head>
+<body>
+    <div class="app-container">
+
+        <aside class="cyber-sidebar">
+            <div class="sidebar-header">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="40" class="me-3" style="filter: brightness(0) invert(1);">
+                <h2 class="brand-title">Corelytics</h2>
+            </div>
+            <div class="sidebar-menu">
+                <a href="/" class="sidebar-link"><i class="fa-solid fa-chart-pie"></i> Analytics</a>
+                <a href="/pc-monitor" class="sidebar-link"><i class="fa-solid fa-desktop"></i> PC Monitor</a>
+                <a href="/admin-procurement-rahasia" class="sidebar-link active"><i class="fa-solid fa-cart-shopping"></i> Procurement</a>
+            </div>
+            <div class="p-3 mt-auto border-top" style="border-color: var(--border-color) !important;">
+                <a href="/logout" class="btn btn-outline-danger w-100"><i class="fa-solid fa-power-off me-2"></i> Sign Out</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <nav class="navbar-custom d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="brand-title" style="font-size: 1.2rem;">IT PROCUREMENT</h1>
+                    <span class="brand-subtitle">Smart Asset Request & Tracker</span>
+                </div>
+                <div>
+                    <span class="badge-online"><i class="fa-solid fa-satellite-dish me-2"></i>Procurement Online</span>
+                </div>
+            </nav>
+
+            <div class="container-fluid px-4 py-4">
+                <div class="row g-4">
+
+                    <div class="col-12 col-md-4">
+                        <div class="chart-container" style="height: auto;">
+                            <h5 class="stat-title mb-4"><i class="fa-solid fa-cart-plus me-2"></i> Ajukan Barang Baru</h5>
+                            
+                            <form method="POST" action="/admin-procurement-rahasia">
+                                <div class="mb-3">
+                                    <label class="form-label text-secondary" style="font-size: 0.85rem;">Nama Barang (Sesuai Snipe-IT)</label>
+                                    <input type="text" class="form-control" name="nama_barang" required placeholder="Contoh: Kabel UTP / RAM 8GB" 
+                                           style="background-color: var(--bg-body); border: 1px solid var(--border-color); color: var(--text-primary); font-family: 'Inter', sans-serif;">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-secondary" style="font-size: 0.85rem;">Kategori</label>
+                                    <select class="form-select" name="kategori" style="background-color: var(--bg-body); border: 1px solid var(--border-color); color: var(--text-primary); font-family: 'Inter', sans-serif;">
+                                        <option value="Consumable">Consumable (Habis Pakai)</option>
+                                        <option value="Component">Component (Komponen PC)</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-secondary" style="font-size: 0.85rem;">Jumlah / Qty</label>
+                                    <input type="number" class="form-control" name="qty" required style="background-color: var(--bg-body); border: 1px solid var(--border-color); color: var(--text-primary); font-family: 'Inter', sans-serif;">
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label text-secondary" style="font-size: 0.85rem;">Keterangan / Kebutuhan</label>
+                                    <input type="text" class="form-control" name="kebutuhan" required placeholder="Buat PC Divisi Finance..." style="background-color: var(--bg-body); border: 1px solid var(--border-color); color: var(--text-primary); font-family: 'Inter', sans-serif;">
+                                </div>
+                                <button type="submit" class="btn w-100" style="background-color: var(--accent-blue); color: #fff; font-weight: 600; border: none;">
+                                    <i class="fa-solid fa-paper-plane me-2"></i>Ajukan Barang
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-8">
+                        <div class="chart-container" style="height: auto; padding: 0; overflow: hidden;">
+                            <div class="p-3 border-bottom" style="border-color: var(--border-color) !important;">
+                                <h5 class="stat-title m-0"><i class="fa-solid fa-list-check me-2"></i> Status Pesanan</h5>
+                            </div>
+                            
+                            <div class="table-responsive">
+                                <table class="table table-dark table-borderless table-hover align-middle mb-0" style="--bs-table-bg: transparent; --bs-table-hover-bg: rgba(255,255,255,0.05); font-size: 0.9rem;">
+                                    <thead style="background-color: rgba(255,255,255,0.02); border-bottom: 1px solid var(--border-color);">
+                                        <tr>
+                                            <th class="px-4 py-3 text-muted fw-medium">ID</th>
+                                            <th class="py-3 text-muted fw-medium">NAMA BARANG</th>
+                                            <th class="py-3 text-muted fw-medium">QTY</th>
+                                            <th class="py-3 text-muted fw-medium">TGL PENGAJUAN</th>
+                                            <th class="py-3 text-muted fw-medium">STATUS</th>
+                                            <th class="py-3 text-muted fw-medium">AKSI</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="color: var(--text-secondary);">
+                                        {% for id, item in pesanan.items() %}
+                                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.02);">
+                                            <td class="px-4 py-3">
+                                                <code style="color: var(--accent-orange); font-family: 'Share Tech Mono', monospace; font-size: 0.95rem;">{{ id }}</code>
+                                            </td>
+                                            <td class="py-3">
+                                                <span style="color: var(--text-primary); font-weight: 500;">{{ item.nama_barang }}</span><br>
+                                                <small style="color: var(--text-muted);">{{ item.kebutuhan }}</small>
+                                            </td>
+                                            <td class="py-3 fw-bold" style="color: var(--text-primary);">{{ item.qty }}</td>
+                                            <td class="py-3">{{ item.tgl_pengajuan }}</td>
+                                            <td class="py-3">
+                                                {% if item.status == 'Selesai' %}
+                                                    <span class="badge" style="background: rgba(46, 204, 113, 0.1); color: var(--accent-green); border: 1px solid rgba(46, 204, 113, 0.2);">
+                                                        <i class="fa-solid fa-check-double me-1"></i>Diterima
+                                                    </span>
+                                                {% else %}
+                                                    <span class="badge" style="background: rgba(255, 123, 66, 0.1); color: var(--accent-orange); border: 1px solid rgba(255, 123, 66, 0.2);">
+                                                        <i class="fa-solid fa-clock me-1"></i>Menunggu
+                                                    </span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="py-3">
+                                                {% if item.status != 'Selesai' %}
+                                                    <button onclick="terimaBarang('{{ id }}')" class="btn btn-sm" style="background: rgba(46, 204, 113, 0.1); color: var(--accent-green); border: 1px solid rgba(46, 204, 113, 0.3);">
+                                                        <i class="fa-solid fa-box-open me-1"></i> Terima & Sync
+                                                    </button>
+                                                {% else %}
+                                                    <small style="color: var(--accent-green);"><i class="fa-solid fa-check text-success me-1"></i>{{ item.tgl_datang }}</small>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function terimaBarang(idPesanan) {
+            if(confirm("Barang beneran udah datang dan mau di-sync ke Snipe-IT?")) {
+                fetch('/api/terima_barang/' + idPesanan, {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'sukses') {
+                        alert(data.pesan);
+                        window.location.reload(); 
+                    } else {
+                        alert("Gagal memproses!");
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
