@@ -14,8 +14,8 @@ from flask import Flask, request, jsonify
 # ==========================================
 # KONFIGURASI AGENT LOKAL (AREA PRODUKSI)
 # ==========================================
-GATEWAY_URL = "http://192.168.22.238:5000/api/relay"
-SECRET_TOKEN = "IT_Command_Center_2026_TopSecret"
+GATEWAY_URL = "http://192.168.0.0:5000/api/relay"
+SECRET_TOKEN = "IT_Command_Center"
 HOSTNAME_PC = socket.gethostname()
 
 app_agent = Flask(__name__)
@@ -99,7 +99,7 @@ def get_ssd_health_smart():
         return 100, 0
     
 def lapor_ke_gateway():
-    print(f"🚀 Memulai Sensus PC Lokal: {HOSTNAME_PC}")
+    print(f" Memulai Sensus PC Lokal: {HOSTNAME_PC}")
     try:
         ip = ambil_ip_asli()
         cpu = get_real_cpu_name()
