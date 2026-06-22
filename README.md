@@ -42,3 +42,21 @@ graph TD
     Gateway -- "3. API Asset Update" --> SnipeIT
     Gateway -- "4. Real-time Status" --> Dashboard
     Dashboard -- "5. Trigger Sync" --> Gateway
+
+🛠️ Tech Stack Used
+Backend: Python 3, Flask, Requests.
+
+Agent Sensors: WMI, PyWin32, Psutil.
+
+Deployment: Windows PowerShell, Batch Scripts, Task Scheduler.
+
+Frontend: HTML5, CSS3 (Glassmorphism), Bootstrap 5, Chart.js.
+
+⚙️ How to Deploy (Quick Start)
+Gateway Setup: Deploy gateway.py on your central server (e.g., Proxmox LXC/VM). Ensure it can route to your client VLANs.
+
+Dashboard Setup: Run app.py in the Dashboard_UI folder.
+
+Compile Agent: Run Compile_Agent.bat to package agent.py into a standalone executable.
+
+Mass Deployment: Place the generated .exe alongside install.bat and pasang_agent.ps1 on a USB drive. Run install.bat as Administrator on target machines.
