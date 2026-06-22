@@ -14,8 +14,8 @@ from flask import Flask, request, jsonify
 # ==========================================
 # KONFIGURASI AGENT LOKAL (AREA PRODUKSI)
 # ==========================================
-GATEWAY_URL = "http://192.168.0.0:5000/api/relay"
-SECRET_TOKEN = "IT_Command_Center"
+GATEWAY_URL = ""
+SECRET_TOKEN = ""
 HOSTNAME_PC = socket.gethostname()
 
 app_agent = Flask(__name__)
