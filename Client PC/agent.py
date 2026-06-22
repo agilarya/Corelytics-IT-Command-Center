@@ -26,7 +26,7 @@ def ambil_ip_asli():
         # Bikin soket bohongan buat ngecek rute IP ke arah Gateway
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         # Tembak IP Gateway Proxmox lu (nggak harus beneran konek)
-        s.connect(("192.168.22.238", 80)) 
+        s.connect(("192.168.0.0", 80)) 
         ip_lokal = s.getsockname()[0]
         s.close()
         return ip_lokal
