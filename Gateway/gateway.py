@@ -10,7 +10,7 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# 🔥 CONFIG LOGGING: Menulis ke Console DAN ke File 'gateway_log.txt'
+# CONFIG LOGGING: Menulis ke Console DAN ke File 'gateway_log.txt'
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s [%(levelname)s] %(message)s',
